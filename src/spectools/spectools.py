@@ -51,15 +51,15 @@ def determine_continuum(flux, windowSize=50, threshold=0.8):
 
     return continuum
 
-
-plt.figure(figsize=(10, 6))
-plt.plot(wavelength, flux, label="Original Spectrum")
-plt.plot(wavelength, continuum, label=f"COntinuum Fit", linestyle="--")
-plt.xlabel("Wavelength (Angstrom)")
-plt.ylabel("Flux")
-plt.legend()
-plt.title("Blackbody Continuum Fit")
-plt.show()
+def plot_spectrum(wavelength, flux, continuum):
+    plt.figure(figsize=(10, 6))
+    plt.plot(wavelength, flux, label="Original Spectrum")
+    plt.plot(wavelength, continuum, label=f"COntinuum Fit", linestyle="--")
+    plt.xlabel("Wavelength (Angstrom)")
+    plt.ylabel("Flux")
+    plt.legend()
+    plt.title("Blackbody Continuum Fit")
+    plt.show()
 
 
 
