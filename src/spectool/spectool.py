@@ -107,7 +107,7 @@ def determine_fwhm(wavelength, flux, central_wavelengths=central_wavelengths):
             plt.plot(wavelength[mask], 1-gaussian(wavelength[mask], *popt), linestyle='--', label='%s FWHM=%s Å' % (line,fwhm))
             plt.plot(wavelength[mask], flux[mask], label=line + ' Spectrum', color='black')
     
-    plt.show()
+    #plt.show()
     return fwhm_results
 
 
