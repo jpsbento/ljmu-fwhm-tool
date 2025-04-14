@@ -6,25 +6,29 @@ from scipy.optimize import curve_fit
 
 file = '/home/jbento/code/ljmu-fwhm-tool/data/arcturus.txt'
 
-wavelength = []
-flux = []
-# The wl of the spectrum is in the first row.
-# The flux is in the second row. 
-# We will read the file line by line and split each line into two values.
-with open(file, 'r') as file:
-    for line in file:
-        # Process data lines (wavelength and flux values)
-        v = line.split()
-        if len(v) == 2:  # Ensure there are exactly two values
-            wavelength_value = float(v[0])
-            flux_value = float(v[1])
-            # Filter by max wavelength
-            if wavelength_value <= 15000:
-                wavelength.append(wavelength_value)
-                flux.append(flux_value)
-# Convert lists to numpy arrays for easy manipulation
-wavelength = np.array(wavelength)
-flux = np.array(flux)
+def load_spectrum(file):
+    
+    wavelength = []
+    flux = []
+    # The wl of the spectrum is in the first row.
+    # The flux is in the second row. 
+    # We will read the file line by line and split each line into two values.
+    with open(file, 'r') as file:
+        for line in file:
+            # Process data lines (wavelength and flux values)
+            v = line.split()
+            if len(v) == 2:  # Ensure there are exactly two values
+                wavelength_value = float(v[0])
+                flux_value = float(v[1])
+                # Filter by max wavelength
+                if wavelength_value <= 15000:
+                    wavelength.append(wavelength_value)
+                    flux.append(flux_value)
+    # Convert lists to numpy arrays for easy manipulation
+    wavelength = np.array(wavelength)
+    flux = np.array(flux)
+    return wavelength, flux
+
 
 
 
