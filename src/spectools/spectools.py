@@ -4,8 +4,6 @@ import matplotlib.pyplot as plt
 from scipy.constants import h, c, k
 from scipy.optimize import curve_fit
 
-file = '/home/jbento/code/ljmu-fwhm-tool/data/arcturus.txt'
-
 def load_spectrum(file):
     
     wavelength = []
@@ -31,33 +29,11 @@ def load_spectrum(file):
 
 
 
+def determine_continuum(flux, windowSize=50, threshold=0.8):
+    log_flux = np.log(flux)
 
-# Convert flux to log space for fitting
-log_flux = np.log(flux)
-
-method = 'running_average'
-
-# Define Planck function in log-flux space
-def planck_log(w, T, a):
-    w_m = w * 1e-10  # Convert wavelength to meters
-    return np.log(a * (2.0 * h * c**2) / (w_m**5) / (np.exp((h * c) / (w_m * k * T)) - 1.0))
-
-if method == 'blackbody':
-    # NOT USED ANYMORE! DOESN'T WORK WELL
-    # Fit in log-flux space    
-    guess = [6000, 1e-8]  # Temperature and scaling factor
-    popt, _ = curve_fit(planck_log, wavelength, log_flux, p0=guess)
-    
-    # Convert the result back to linear flux space
-    log_continuum = planck_log(wavelength, *popt)
-    continuum = np.exp(log_continuum)
-
-elif method == 'running_average':
-    # Initialize an empty continuum array
     continuum = np.zeros_like(flux)
-    
-    windowSize = 50
-    threshold = 0.8
+
 
     for i in range(len(flux)):
         half_window = min(i, len(flux) - i - 1, windowSize // 2)
@@ -73,7 +49,7 @@ elif method == 'running_average':
         # Take the median of the filtered flux, or the median of the whole window if no filtering
         continuum[i] = np.exp(np.median(filtered_flux)) if len(filtered_flux) > 0 else np.exp(np.median(window_flux))
 
-
+    return continuum
 
 
 plt.figure(figsize=(10, 6))
