@@ -111,6 +111,20 @@ def determine_fwhm(wavelength, flux, central_wavelengths=central_wavelengths):
     return fwhm_results
 
 
-
-
-
+def full_analysis(file):
+    # Load the spectrum
+    wavelength, flux = load_spectrum(file)
+    
+    # Determine the continuum
+    continuum = determine_continuum(flux)
+    
+    # Normalize the spectrum
+    normalized_flux = normalize_spectrum(flux, continuum)
+    
+    # Plot the original and normalized spectrum
+    plot_spectrum(wavelength, flux, continuum)
+    
+    # Determine FWHM for specified lines
+    fwhm_results = determine_fwhm(wavelength, normalized_flux)
+    
+    return fwhm_results
