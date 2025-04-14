@@ -4,6 +4,8 @@ import matplotlib.pyplot as plt
 from scipy.constants import h, c, k
 from scipy.optimize import curve_fit
 
+central_wavelengths = {"Halpha": 6563, "Hbeta": 4861, "Hgamma": 4340, "Hdelta": 4102, "Hepsilon": 3970,}
+
 def load_spectrum(file):
     
     wavelength = []
@@ -71,10 +73,9 @@ def normalize_spectrum(flux, continuum):
 def gaussian(x, amp, mu, sigma):
     return amp * np.exp(-(x - mu) ** 2 / (2 * sigma ** 2))
 
-def determine_fwhm(wavelength, flux):
+def determine_fwhm(wavelength, flux, central_wavelengths=central_wavelengths):
     fwhm_results = []
 
-    central_wavelengths = {"Halpha": 6563, "Hbeta": 4861, "Hgamma": 4340, "Hdelta": 4102, "Hepsilon": 3970,}
 
     # Create the inverted spectrum for fitting
     inverted_spectrum = 1 - flux
